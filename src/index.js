@@ -141,6 +141,9 @@ const submitFormButton = document.getElementById('submitForm');
 // Miscellaneous
 const addEthereumChain = document.getElementById('addEthereumChain');
 const switchEthereumChain = document.getElementById('switchEthereumChain');
+const addChain = document.getElementById('addChain');
+const switchChain = document.getElementById('switchChain');
+const chainSelection = document.getElementById('chains');
 
 const initialize = async () => {
   try {
@@ -264,6 +267,8 @@ const initialize = async () => {
     if (isMetaMaskInstalled()) {
       addEthereumChain.disabled = false;
       switchEthereumChain.disabled = false;
+      addChain.disabled = false;
+      switchChain.disabled = false;
     } else {
       onboardButton.innerText = 'Click here to install MetaMask!';
       onboardButton.onclick = onClickInstall;
@@ -298,6 +303,50 @@ const initialize = async () => {
     });
   };
 
+  const CHAINS = {
+    xdai: {
+      chainId: '0x64',
+      rpcUrls: ['https://dai.poa.network'],
+      chainName: 'xDAI Chain',
+      nativeCurrency: { name: 'xDAI', decimals: 18, symbol: 'xDAI' },
+      blockExplorerUrls: ['https://blockscout.com/poa/xdai'],
+    },
+    ethereum_mainnet: {
+      chainId: '0x01',
+      rpcUrls: ['https://dai.poa.network'],
+      chainName: 'ethereum',
+      nativeCurrency: { name: 'ether', decimals: 18, symbol: 'eth' },
+      blockExplorerUrls: ['https://etherscan.com'],
+    },
+    ethereum_goerli: {
+      chainId: '0x05',
+      rpcUrls: ['https://rpc.goerli.mudit.blog'],
+      chainName: 'ethereum-goerli-testnet',
+      nativeCurrency: { name: 'ether', decimas: 18, symbol: 'eth' },
+      blockExplorerUrls: ['https://goerli.etherscan.io/'],
+    },
+  };
+
+  function getChainFromValue(chain) {
+    switch (chain) {
+      case 'xdai':
+        return CHAINS.xdai;
+      case 'ethereum-mainnet':
+        return CHAINS.ethereum_mainnet;
+      case 'ethereum-goerli':
+        return CHAINS.ethereum_goerli;
+      default:
+        return CHAINS.ethereum_mainnet;
+    }
+  }
+
+  addChain.onclick = async () => {
+    await ethereum.request({
+      method: 'wallet_addEthereumChain',
+      params: [getChainFromValue(chainSelection.value)],
+    });
+  };
+
   switchEthereumChain.onclick = async () => {
     await ethereum.request({
       method: 'wallet_switchEthereumChain',
@@ -306,6 +355,13 @@ const initialize = async () => {
           chainId: '0x64',
         },
       ],
+    });
+  };
+
+  switchChain.onclick = async () => {
+    await ethereum.request({
+      method: 'wallet_addEthereumChain',
+      params: [getChainFromValue(chainSelection.value)],
     });
   };
 

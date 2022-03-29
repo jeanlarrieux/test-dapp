@@ -198,7 +198,7 @@
                   class="btn btn-primary btn-lg btn-block mb-3"
                   id="deployFailingButton"
                   disabled
-                  
+
                 >
                   Deploy Failing Contract
                 </button>
@@ -575,6 +575,17 @@
                 <h4 class="card-title">
                   Ethereum Chain Interactions
                 </h4>
+                <form name="chainSelection">
+                  <label for="chains">Choose a chain:</label>
+                  <select id="chains" name="chains">
+                    <option value="ethereum-mainnet">Ethereum mainnet</option>
+                    <option value="xdai">xDAI</option>
+                    <option value="ethereum-goerli">Ethereum Goerli</option>
+                  </select>
+                  <input class="btn btn-primary btn-lg btn-block mb-3" type="button" value="Add chain" id="addChain">
+                  <input class="btn btn-primary btn-lg btn-block mb-3" type="button" value="Switch chain"
+                         id="switchChain">
+                </form>
                 <button
                   class="btn btn-primary btn-lg btn-block mb-3"
                   id="addEthereumChain"
